@@ -21,7 +21,7 @@ public class GenreFacadeImpl implements GenreFacade {
 
   @Override
   public Genre read(Long id) {
-    return genreService.get(id);
+    return genreService.getById(id);
   }
 
   @Override

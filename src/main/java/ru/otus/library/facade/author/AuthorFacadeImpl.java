@@ -21,7 +21,7 @@ public class AuthorFacadeImpl implements AuthorFacade {
 
   @Override
   public Author read(Long id) {
-    return authorService.get(id);
+    return authorService.getById(id);
   }
 
   @Override

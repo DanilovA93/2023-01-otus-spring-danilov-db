@@ -19,8 +19,8 @@ public class BookFacadeImpl implements BookFacade {
 
   @Override
   public void create(Long authorId, Long genreId, String name) {
-    Author author = authorService.get(authorId);
-    Genre genre = genreService.get(genreId);
+    Author author = authorService.getById(authorId);
+    Genre genre = genreService.getById(genreId);
     Book book = Book.builder()
         .name(name)
         .author(author)
@@ -32,13 +32,13 @@ public class BookFacadeImpl implements BookFacade {
 
   @Override
   public Book read(Long id) {
-    return bookService.get(id);
+    return bookService.getById(id);
   }
 
   @Override
   public void update(Long id, Long authorId, Long genreId, String name) {
-    Author author = authorService.get(authorId);
-    Genre genre = genreService.get(genreId);
+    Author author = authorService.getById(authorId);
+    Genre genre = genreService.getById(genreId);
     Book book = Book.builder()
         .name(name)
         .author(author)

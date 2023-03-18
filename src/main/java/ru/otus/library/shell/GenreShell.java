@@ -7,7 +7,7 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.library.entity.Genre;
 import ru.otus.library.facade.genre.GenreFacade;
 
-@ShellComponent
+@ShellComponent(value = "AWDAWdwd")
 @RequiredArgsConstructor
 public class GenreShell {
 
@@ -17,7 +17,7 @@ public class GenreShell {
       key = {"gc", "genre-create"},
       value = "Create a genre"
   )
-  public void create(@ShellOption({"n", "name"}) String name) {
+  public void create(@ShellOption({"name", "n"}) String name) {
     genreFacade.create(name);
   }
 
