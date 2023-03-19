@@ -2,6 +2,7 @@ package ru.otus.library.dao.author;
 
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,9 +27,14 @@ public class AuthorDaoImpl implements AuthorDao {
 
   @Override
   public Author getById (long id) {
-    Map<String, Object> params = Map.of("id", id);
-    BeanPropertyRowMapper<Author> rowMapper = BeanPropertyRowMapper.newInstance(Author.class);
-    return jdbc.queryForObject(SELECT_QUERY, params, rowMapper);
+    try {
+      Map<String, Object> params = Map.of("id", id);
+      BeanPropertyRowMapper<Author> rowMapper = BeanPropertyRowMapper.newInstance(Author.class);
+      return jdbc.queryForObject(SELECT_QUERY, params, rowMapper);
+
+    } catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   @Override

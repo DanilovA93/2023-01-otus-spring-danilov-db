@@ -2,6 +2,7 @@ package ru.otus.library.dao.book;
 
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.otus.library.entity.Book;
@@ -34,8 +35,13 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public Book getById(long id) {
-    Map<String, Object> params = Map.of("id", id);
-    return jdbc.queryForObject(SELECT_QUERY, params, new BookMapper());
+    try {
+      Map<String, Object> params = Map.of("id", id);
+      return jdbc.queryForObject(SELECT_QUERY, params, new BookMapper());
+
+    } catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   @Override

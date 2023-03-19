@@ -2,6 +2,7 @@ package ru.otus.library.dao.genre;
 
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,9 +27,14 @@ public class GenreDaoImpl implements GenreDao {
 
   @Override
   public Genre getById(long id) {
-    Map<String, Object> params = Map.of("id", id);
-    BeanPropertyRowMapper<Genre> rowMapper = BeanPropertyRowMapper.newInstance(Genre.class);
-    return jdbc.queryForObject(SELECT_QUERY, params, rowMapper);
+    try {
+      Map<String, Object> params = Map.of("id", id);
+      BeanPropertyRowMapper<Genre> rowMapper = BeanPropertyRowMapper.newInstance(Genre.class);
+      return jdbc.queryForObject(SELECT_QUERY, params, rowMapper);
+
+    } catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   @Override

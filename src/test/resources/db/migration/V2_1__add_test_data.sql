@@ -2,20 +2,25 @@
 -------AUTHORS--------------------------------------------------------------------------------------
 
 insert into authors
-values (1, 'Stephen King');
+values (100, 'TestAuthorOne');
+
+insert into authors
+values (101, 'TestAuthorTwo');
 
 ----------------------------------------------------------------------------------------------------
 -------GENRES---------------------------------------------------------------------------------------
 
 insert into genres
-values (1, 'Horror');
+values (100, 'TestGenreOne');
 
+insert into genres
+values (101, 'TestGenreTwo');
 
 ----------------------------------------------------------------------------------------------------
 -------BOOKS----------------------------------------------------------------------------------------
 
 insert into books
-values (1, 'The Shining', 1, 1);
+values (100, 'TestBookOne', 100, 100);
 
 insert into books
-values (2, 'The Thing', 1, 1);
+values (101, 'TestBookTwo', 100, 100);
