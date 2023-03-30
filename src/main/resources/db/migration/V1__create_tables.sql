@@ -26,3 +26,13 @@ create table if not exists books
     author_id   bigint not null references authors (id),
     genre_id    bigint not null references genres (id)
 );
+
+----------------------------------------------------------------------------------------------------
+-------COMMENT--------------------------------------------------------------------------------------
+
+create table if not exists comments
+(
+    id          bigint not null primary key auto_increment,
+    text        varchar(128) not null,
+    book_id     bigint not null references books (id)
+);

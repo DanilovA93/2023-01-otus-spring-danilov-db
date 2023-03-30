@@ -1,17 +1,13 @@
 package ru.otus.library.service.book;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.otus.library.dao.book.BookDaoImpl;
+import ru.otus.library.repository.book.BookRepositoryImpl;
 import ru.otus.library.entity.Author;
 import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Genre;
@@ -21,7 +17,7 @@ import ru.otus.library.entity.Genre;
 class BookServiceImplTest {
 
   @Mock
-  private BookDaoImpl bookDao;
+  private BookRepositoryImpl bookDao;
 
   @InjectMocks
   private BookServiceImpl service;
@@ -35,9 +31,9 @@ class BookServiceImplTest {
         .genre(Genre.builder().build())
         .build();
 
-    doReturn(book).when(bookDao).getById(1);
+    doReturn(book).when(bookDao).findById(1);
 
-    Book result = service.getById(1L);
+    Book result = service.findById(1L);
 
     Assertions.assertNotNull(result);
     Assertions.assertEquals(book, result);

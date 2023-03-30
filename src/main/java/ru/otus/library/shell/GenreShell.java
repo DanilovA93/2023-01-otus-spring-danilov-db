@@ -1,32 +1,46 @@
 package ru.otus.library.shell;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.library.entity.Genre;
-import ru.otus.library.facade.genre.GenreFacade;
+import ru.otus.library.dto.GenreDTO;
+import ru.otus.library.service.genre.GenreService;
 
-@ShellComponent(value = "AWDAWdwd")
+@ShellComponent
 @RequiredArgsConstructor
 public class GenreShell {
 
-  private final GenreFacade genreFacade;
+  private final GenreService genreService;
 
   @ShellMethod(
       key = {"gc", "genre-create"},
       value = "Create a genre"
   )
   public void create(@ShellOption({"name", "n"}) String name) {
-    genreFacade.create(name);
+    genreService.create(name);
+  }
+
+  @ShellMethod(
+      key = {"gra", "genre-reed-all"},
+      value = "Genre all books"
+  )
+  public List<GenreDTO> findAll() {
+    return genreService.findAll().stream()
+        .map(GenreDTO::mapToFull)
+        .collect(Collectors.toList());
   }
 
   @ShellMethod(
       key = {"gr", "genre-reed"},
       value = "Reed the genre"
   )
-  public Genre read(@ShellOption({"id"}) Long id) {
-    return genreFacade.read(id);
+  public GenreDTO findById(
+      @ShellOption({"id"}) Long id
+  ){
+    return GenreDTO.mapToFull(genreService.findById(id));
   }
 
   @ShellMethod(
@@ -37,7 +51,7 @@ public class GenreShell {
       @ShellOption({"id"}) Long id,
       @ShellOption({"n", "name"}) String name
   ) {
-    genreFacade.update(id, name);
+    genreService.update(id, name);
   }
 
   @ShellMethod(
@@ -45,6 +59,6 @@ public class GenreShell {
       value = "Delete the genre"
   )
   public void delete(@ShellOption({"id"}) Long id) {
-    genreFacade.delete(id);
+    genreService.delete(id);
   }
 }

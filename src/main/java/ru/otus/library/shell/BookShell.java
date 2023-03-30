@@ -1,17 +1,21 @@
 package ru.otus.library.shell;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.library.dto.AuthorDTO;
+import ru.otus.library.dto.BookDTO;
 import ru.otus.library.entity.Book;
-import ru.otus.library.facade.book.BookFacade;
+import ru.otus.library.service.book.BookService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class BookShell {
 
-  private final BookFacade facade;
+  private final BookService bookService;
 
   @ShellMethod(
       key = {"bc", "book-create"},
@@ -22,15 +26,27 @@ public class BookShell {
       @ShellOption({"gid", "genre-id"}) Long genreId,
       @ShellOption({"n", "name"}) String name
   ) {
-    facade.create(authorId, genreId, name);
+    bookService.create(authorId, genreId, name);
+  }
+
+  @ShellMethod(
+      key = {"bra", "book-reed-all"},
+      value = "Reed all books"
+  )
+  public List<BookDTO> findAll() {
+    return bookService.findAll().stream()
+        .map(BookDTO::mapToFull)
+        .collect(Collectors.toList());
   }
 
   @ShellMethod(
       key = {"br", "book-reed"},
       value = "Reed the book"
   )
-  public Book read(@ShellOption({"id"}) Long id) {
-    return facade.read(id);
+  public BookDTO findById(
+      @ShellOption({"id"}) Long id
+  ){
+    return BookDTO.mapToFull(bookService.findById(id));
   }
 
   @ShellMethod(
@@ -43,7 +59,7 @@ public class BookShell {
       @ShellOption({"gid", "genre-id"}) Long genreId,
       @ShellOption({"n", "name"}) String name
   ) {
-    facade.update(id, authorId, genreId, name);
+    bookService.update(id, authorId, genreId, name);
   }
 
   @ShellMethod(
@@ -51,6 +67,6 @@ public class BookShell {
       value = "Delete the book"
   )
   public void delete(@ShellOption({"id"}) Long id) {
-    facade.delete(id);
+    bookService.delete(id);
   }
 }

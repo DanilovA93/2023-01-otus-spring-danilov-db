@@ -1,4 +1,4 @@
-package ru.otus.library.dao.author;
+package ru.otus.library.repository.author;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,15 +10,15 @@ import ru.otus.library.entity.Author;
 
 @DisplayName("Author DAO test")
 @JdbcTest
-@Import(AuthorDaoImpl.class)
-class AuthorDaoImplTest {
+@Import(AuthorRepositoryImpl.class)
+class AuthorRepositoryImplTest {
 
   @Autowired
-  private AuthorDaoImpl dao;
+  private AuthorRepositoryImpl dao;
 
   @Test
   void getById() {
-    Author result = dao.getById(100);
+    Author result = dao.findById(100);
     Assertions.assertNotNull(result);
   }
 
@@ -30,7 +30,7 @@ class AuthorDaoImplTest {
         .build();
 
     dao.save(author);
-    Author result = dao.getById(1);
+    Author result = dao.findById(1);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(authorName, result.getName());
   }
@@ -45,7 +45,7 @@ class AuthorDaoImplTest {
         .build();
 
     dao.update(author);
-    Author result = dao.getById(authorId);
+    Author result = dao.findById(authorId);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(authorName, result.getName());
   }
@@ -54,7 +54,7 @@ class AuthorDaoImplTest {
   void delete() {
     long authorId = 101L;
     dao.delete(authorId);
-    Author result = dao.getById(authorId);
+    Author result = dao.findById(authorId);
     Assertions.assertNull(result);
   }
 }
