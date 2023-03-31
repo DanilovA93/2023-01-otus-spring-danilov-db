@@ -29,7 +29,7 @@ public class CommentRepositoryImpl implements CommentRepository {
   }
 
   @Override
-  public Comment getById(long id) {
+  public Comment findById(long id) {
     return em.find(Comment.class, id);
   }
 

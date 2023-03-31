@@ -1,5 +1,6 @@
 package ru.otus.library.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +40,7 @@ public class Genre {
   @Column(name = "name", nullable = false)
   private String name;
 
-  @OneToMany(mappedBy = "genre")
+  @OneToMany(mappedBy = "genre", fetch = FetchType.EAGER)
   @Fetch(FetchMode.SELECT)
-  private List<Book> books;
+  private List<Book> books = new ArrayList<>();
 }

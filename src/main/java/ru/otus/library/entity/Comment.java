@@ -35,5 +35,5 @@ public class Comment {
 
   @ManyToOne
   @JoinColumn(name = "book_id", nullable = false)
-  private Book book; //<<<
+  private Book book;
 }

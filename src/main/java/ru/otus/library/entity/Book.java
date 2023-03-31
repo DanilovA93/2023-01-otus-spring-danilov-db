@@ -1,5 +1,6 @@
 package ru.otus.library.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Setter
@@ -45,5 +48,6 @@ public class Book {
   private Genre genre;
 
   @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
-  private List<Comment> comments;
+  @Fetch(FetchMode.SELECT)
+  private List<Comment> comments = new ArrayList<>();
 }

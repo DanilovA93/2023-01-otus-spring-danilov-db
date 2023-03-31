@@ -37,13 +37,13 @@ public class CommentServiceImpl implements CommentService {
   @Override
   @Transactional(readOnly = true)
   public Comment findById(Long id) {
-    return commentRepository.getById(id);
+    return commentRepository.findById(id);
   }
 
   @Override
   @Transactional
   public void update(Long id, String text) {
-    Comment comment = commentRepository.getById(id);
+    Comment comment = commentRepository.findById(id);
     comment.setText(text);
 
     commentRepository.update(comment);

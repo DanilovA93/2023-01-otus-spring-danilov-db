@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.entity.Genre;
 
-@DisplayName("Genre DAO test")
-@JdbcTest
-@Import(GenreRepositoryImpl.class)
+@DisplayName("Тестирование слоя repository для сущности Genre")
+@SpringBootTest
+@Transactional
 class GenreRepositoryImplTest {
 
   @Autowired
