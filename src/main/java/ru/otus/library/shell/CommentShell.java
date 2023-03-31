@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.library.dto.BookDTO;
 import ru.otus.library.dto.CommentDTO;
 import ru.otus.library.service.comment.CommentService;
 

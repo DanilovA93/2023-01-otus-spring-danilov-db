@@ -7,7 +7,6 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.library.dto.AuthorDTO;
-import ru.otus.library.entity.Author;
 import ru.otus.library.service.author.AuthorService;
 
 @ShellComponent
