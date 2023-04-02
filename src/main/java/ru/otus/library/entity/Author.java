@@ -39,7 +39,6 @@ public class Author {
   @Column(name = "name", nullable = false)
   private String name;
 
-  @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
-  @Fetch(FetchMode.SELECT)
+  @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
   private List<Book> books = new ArrayList<>();
 }

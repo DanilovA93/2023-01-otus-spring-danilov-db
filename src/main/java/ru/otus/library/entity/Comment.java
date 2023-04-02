@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Setter
@@ -35,5 +37,6 @@ public class Comment {
 
   @ManyToOne
   @JoinColumn(name = "book_id", nullable = false)
+  @Fetch(FetchMode.JOIN)
   private Book book;
 }

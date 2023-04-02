@@ -41,13 +41,14 @@ public class Book {
 
   @ManyToOne
   @JoinColumn(name = "author_id", nullable = false)
+  @Fetch(FetchMode.JOIN)
   private Author author;
 
   @ManyToOne
   @JoinColumn(name = "genre_id", nullable = false)
+  @Fetch(FetchMode.JOIN)
   private Genre genre;
 
-  @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
-  @Fetch(FetchMode.SELECT)
+  @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
   private List<Comment> comments = new ArrayList<>();
 }
