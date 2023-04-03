@@ -3,11 +3,10 @@ package ru.otus.library.repository.genre;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.otus.library.entity.Genre;
 
-@Repository
+@Component
 public class GenreRepositoryImpl implements GenreRepository {
 
   @PersistenceContext
@@ -39,9 +38,7 @@ public class GenreRepositoryImpl implements GenreRepository {
 
   @Override
   public void delete(Long id) {
-    Query query = em.createQuery("delete from Genre where id = :id");
-    query.setParameter("id", id);
-
-    query.executeUpdate();
+    Genre genre = findById(id);
+    em.remove(genre);
   }
 }

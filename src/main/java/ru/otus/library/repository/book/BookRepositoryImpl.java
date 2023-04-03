@@ -3,11 +3,10 @@ package ru.otus.library.repository.book;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.otus.library.entity.Book;
 
-@Repository
+@Component
 public class BookRepositoryImpl implements BookRepository {
 
   @PersistenceContext
@@ -39,9 +38,7 @@ public class BookRepositoryImpl implements BookRepository {
 
   @Override
   public void delete(Long id) {
-    Query query = em.createQuery("delete from Book where id = :id");
-    query.setParameter("id", id);
-
-    query.executeUpdate();
+    Book book = findById(id);
+    em.remove(book);
   }
 }

@@ -14,7 +14,7 @@ public class GenreServiceImpl implements GenreService {
   private final GenreRepository genreRepository;
 
   @Override
-  @Transactional(readOnly = true)
+  @Transactional
   public void create(String name) {
     Genre genre = Genre.builder()
         .name(name)
@@ -24,13 +24,11 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public List<Genre> findAll() {
     return genreRepository.findAll();
   }
 
   @Override
-  @Transactional
   public Genre findById(Long id) {
     return genreRepository.findById(id);
   }

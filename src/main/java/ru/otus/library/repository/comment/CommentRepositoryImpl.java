@@ -1,12 +1,10 @@
 package ru.otus.library.repository.comment;
 
-import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.otus.library.entity.Comment;
 
-@Repository
+@Component
 public class CommentRepositoryImpl implements CommentRepository {
 
   private final EntityManager em;
@@ -21,14 +19,6 @@ public class CommentRepositoryImpl implements CommentRepository {
   }
 
   @Override
-  public List<Comment> findAllByBookId(Long bookId) {
-    Query query = em.createQuery("select c from Comment c where book_id = :bookId");
-    query.setParameter("bookId", bookId);
-
-    return query.getResultList();
-  }
-
-  @Override
   public Comment findById(long id) {
     return em.find(Comment.class, id);
   }
@@ -40,9 +30,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
   @Override
   public void deleteById(Long id) {
-    Query query = em.createQuery("delete from Comment where id = :id");
-    query.setParameter("id", id);
-
-    query.executeUpdate();
+    Comment comment = findById(id);
+    em.remove(comment);
   }
 }

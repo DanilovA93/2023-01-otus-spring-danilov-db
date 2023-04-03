@@ -29,13 +29,12 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public List<Comment> findAllByBookId(Long bookId) {
-    return commentRepository.findAllByBookId(bookId);
+    Book book = bookRepository.findById(bookId);
+    return book.getComments();
   }
 
   @Override
-  @Transactional(readOnly = true)
   public Comment findById(Long id) {
     return commentRepository.findById(id);
   }

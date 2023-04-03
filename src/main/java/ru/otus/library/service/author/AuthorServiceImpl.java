@@ -23,13 +23,12 @@ public class AuthorServiceImpl implements AuthorService {
     authorRepository.save(author);
   }
 
-  @Transactional(readOnly = true)
+  @Override
   public List<Author> findAll() {
     return authorRepository.findAll();
   }
 
   @Override
-  @Transactional(readOnly = true)
   public Author findById(Long id) {
     return authorRepository.findById(id);
   }
