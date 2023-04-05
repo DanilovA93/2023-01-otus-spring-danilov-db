@@ -32,9 +32,7 @@ public class BookShell {
       value = "Reed all books"
   )
   public List<BookDTO> findAll() {
-    return bookService.findAll().stream()
-        .map(BookDTO::mapToFull)
-        .collect(Collectors.toList());
+    return bookService.findAll();
   }
 
   @ShellMethod(
@@ -44,7 +42,7 @@ public class BookShell {
   public BookDTO findById(
       @ShellOption({"id"}) Long id
   ){
-    return BookDTO.mapToFull(bookService.findById(id));
+    return bookService.findById(id);
   }
 
   @ShellMethod(

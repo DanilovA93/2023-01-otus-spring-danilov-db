@@ -33,9 +33,7 @@ public class CommentShell {
   public List<CommentDTO> findAllByBookId(
       @ShellOption({"book-id", "bid"}) Long bookId
   ){
-    return commentService.findAllByBookId(bookId).stream()
-        .map(CommentDTO::mapToFull)
-        .collect(Collectors.toList());
+    return commentService.findAllByBookId(bookId);
   }
 
   @ShellMethod(
@@ -45,7 +43,7 @@ public class CommentShell {
   public CommentDTO findById(
       @ShellOption({"id", "id"}) Long id
   ){
-    return CommentDTO.mapToFull(commentService.findById(id));
+    return commentService.findById(id);
   }
 
   @ShellMethod(

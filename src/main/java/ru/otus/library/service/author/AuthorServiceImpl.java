@@ -1,10 +1,13 @@
 package ru.otus.library.service.author;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.library.dto.AuthorDTO;
 import ru.otus.library.entity.Author;
+import ru.otus.library.mapper.AuthorMapper;
 import ru.otus.library.repository.author.AuthorRepository;
 
 @Component
@@ -24,13 +27,15 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  public List<Author> findAll() {
-    return authorRepository.findAll();
+  public List<AuthorDTO> findAll() {
+    return authorRepository.findAll().stream()
+        .map(AuthorMapper::map)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public Author findById(Long id) {
-    return authorRepository.findById(id);
+  public AuthorDTO findById(Long id) {
+    return AuthorMapper.map(authorRepository.findById(id));
   }
 
   @Override

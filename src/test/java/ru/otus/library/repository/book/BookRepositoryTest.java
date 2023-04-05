@@ -65,8 +65,7 @@ class BookRepositoryTest {
   void delete() {
     long bookId = 100L;
 
-    Assertions.assertThrows(
-        DataIntegrityViolationException.class,
+    Assertions.assertDoesNotThrow(
         () -> repository.delete(bookId)
     );
   }

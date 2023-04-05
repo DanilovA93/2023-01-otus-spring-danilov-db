@@ -28,9 +28,7 @@ public class AuthorShell {
       value = "Reed all authors"
   )
   public List<AuthorDTO> findAll() {
-    return authorService.findAll().stream()
-        .map(AuthorDTO::mapToFull)
-        .collect(Collectors.toList());
+    return authorService.findAll();
   }
 
   @ShellMethod(
@@ -38,7 +36,7 @@ public class AuthorShell {
       value = "Reed the author"
   )
   public AuthorDTO findById(@ShellOption({"id"}) Long id) {
-    return AuthorDTO.mapToFull(authorService.findById(id));
+    return authorService.findById(id);
   }
 
   @ShellMethod(

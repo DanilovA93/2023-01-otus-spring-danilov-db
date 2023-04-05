@@ -1,12 +1,15 @@
 package ru.otus.library.service.book;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.library.dto.BookDTO;
 import ru.otus.library.entity.Author;
 import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Genre;
+import ru.otus.library.mapper.BookMapper;
 import ru.otus.library.repository.author.AuthorRepository;
 import ru.otus.library.repository.book.BookRepository;
 import ru.otus.library.repository.genre.GenreRepository;
@@ -34,13 +37,15 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Book> findAll() {
-    return bookRepository.findAll();
+  public List<BookDTO> findAll() {
+    return bookRepository.findAll().stream()
+        .map(BookMapper::map)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public Book findById(Long id) {
-    return bookRepository.findById(id);
+  public BookDTO findById(Long id) {
+    return BookMapper.map(bookRepository.findById(id));
   }
 
   @Override

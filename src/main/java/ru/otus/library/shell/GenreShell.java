@@ -1,7 +1,6 @@
 package ru.otus.library.shell;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -28,9 +27,7 @@ public class GenreShell {
       value = "Genre all books"
   )
   public List<GenreDTO> findAll() {
-    return genreService.findAll().stream()
-        .map(GenreDTO::mapToFull)
-        .collect(Collectors.toList());
+    return genreService.findAll();
   }
 
   @ShellMethod(
@@ -40,7 +37,7 @@ public class GenreShell {
   public GenreDTO findById(
       @ShellOption({"id"}) Long id
   ){
-    return GenreDTO.mapToFull(genreService.findById(id));
+    return genreService.findById(id);
   }
 
   @ShellMethod(

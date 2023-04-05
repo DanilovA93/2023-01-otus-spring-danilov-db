@@ -1,10 +1,13 @@
 package ru.otus.library.service.genre;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.library.dto.GenreDTO;
 import ru.otus.library.entity.Genre;
+import ru.otus.library.mapper.GenreMapper;
 import ru.otus.library.repository.genre.GenreRepository;
 
 @Component
@@ -24,13 +27,15 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
-  public List<Genre> findAll() {
-    return genreRepository.findAll();
+  public List<GenreDTO> findAll() {
+    return genreRepository.findAll().stream()
+        .map(GenreMapper::map)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public Genre findById(Long id) {
-    return genreRepository.findById(id);
+  public GenreDTO findById(Long id) {
+    return GenreMapper.map(genreRepository.findById(id));
   }
 
   @Override

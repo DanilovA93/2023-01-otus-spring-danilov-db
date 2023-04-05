@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.otus.library.dto.BookDTO;
 import ru.otus.library.repository.book.BookRepositoryImpl;
 import ru.otus.library.entity.Author;
 import ru.otus.library.entity.Book;
@@ -32,9 +33,9 @@ class BookServiceImplTest {
 
     doReturn(book).when(repository).findById(1);
 
-    Book result = service.findById(1L);
+    BookDTO result = service.findById(1L);
 
     Assertions.assertNotNull(result);
-    Assertions.assertEquals(book, result);
+    Assertions.assertEquals(book.getId(), result.getId());
   }
 }
