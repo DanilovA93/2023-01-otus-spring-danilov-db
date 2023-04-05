@@ -14,11 +14,11 @@ import ru.otus.library.entity.Genre;
 class GenreRepositoryImplTest {
 
   @Autowired
-  private GenreRepositoryImpl dao;
+  private GenreRepositoryImpl repository;
 
   @Test
   void getById() {
-    Genre result = dao.findById(100);
+    Genre result = repository.findById(100);
     Assertions.assertNotNull(result);
   }
 
@@ -29,8 +29,8 @@ class GenreRepositoryImplTest {
         .name(genreName)
         .build();
 
-    dao.save(genre);
-    Genre result = dao.findById(1);
+    repository.save(genre);
+    Genre result = repository.findById(1);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(genreName, result.getName());
   }
@@ -44,8 +44,8 @@ class GenreRepositoryImplTest {
         .name(genreName)
         .build();
 
-    dao.update(genre);
-    Genre result = dao.findById(genreId);
+    repository.update(genre);
+    Genre result = repository.findById(genreId);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(genreName, result.getName());
   }
@@ -53,8 +53,8 @@ class GenreRepositoryImplTest {
   @Test
   void delete() {
     long authorId = 101L;
-    dao.delete(authorId);
-    Genre result = dao.findById(authorId);
+    repository.delete(authorId);
+    Genre result = repository.findById(authorId);
     Assertions.assertNull(result);
   }
 }

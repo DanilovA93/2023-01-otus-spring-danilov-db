@@ -14,11 +14,11 @@ import ru.otus.library.entity.Author;
 class AuthorRepositoryImplTest {
 
   @Autowired
-  private AuthorRepositoryImpl dao;
+  private AuthorRepositoryImpl repository;
 
   @Test
   void getById() {
-    Author result = dao.findById(100);
+    Author result = repository.findById(100);
     Assertions.assertNotNull(result);
   }
 
@@ -29,8 +29,8 @@ class AuthorRepositoryImplTest {
         .name(authorName)
         .build();
 
-    dao.save(author);
-    Author result = dao.findById(1);
+    repository.save(author);
+    Author result = repository.findById(1);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(authorName, result.getName());
   }
@@ -44,8 +44,8 @@ class AuthorRepositoryImplTest {
         .name(authorName)
         .build();
 
-    dao.update(author);
-    Author result = dao.findById(authorId);
+    repository.update(author);
+    Author result = repository.findById(authorId);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(authorName, result.getName());
   }
@@ -53,8 +53,8 @@ class AuthorRepositoryImplTest {
   @Test
   void delete() {
     long authorId = 101L;
-    dao.delete(authorId);
-    Author result = dao.findById(authorId);
+    repository.delete(authorId);
+    Author result = repository.findById(authorId);
     Assertions.assertNull(result);
   }
 }

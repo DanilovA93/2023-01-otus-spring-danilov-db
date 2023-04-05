@@ -13,11 +13,10 @@ import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Genre;
 
 @SpringBootTest
-//@RunWith(SpringRunner.class)
 class BookServiceImplTest {
 
   @Mock
-  private BookRepositoryImpl bookDao;
+  private BookRepositoryImpl repository;
 
   @InjectMocks
   private BookServiceImpl service;
@@ -31,7 +30,7 @@ class BookServiceImplTest {
         .genre(Genre.builder().build())
         .build();
 
-    doReturn(book).when(bookDao).findById(1);
+    doReturn(book).when(repository).findById(1);
 
     Book result = service.findById(1L);
 
