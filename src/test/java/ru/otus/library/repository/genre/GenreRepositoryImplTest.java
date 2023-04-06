@@ -1,26 +1,24 @@
-package ru.otus.library.dao.genre;
+package ru.otus.library.repository.genre;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.context.annotation.Import;
-import ru.otus.library.dao.author.AuthorDaoImpl;
-import ru.otus.library.entity.Author;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.entity.Genre;
 
-@DisplayName("Genre DAO test")
-@JdbcTest
-@Import(GenreDaoImpl.class)
-class GenreDaoImplTest {
+@DisplayName("Тестирование слоя repository для сущности Genre")
+@SpringBootTest
+@Transactional
+class GenreRepositoryImplTest {
 
   @Autowired
-  private GenreDaoImpl dao;
+  private GenreRepositoryImpl repository;
 
   @Test
   void getById() {
-    Genre result = dao.getById(100);
+    Genre result = repository.findById(100);
     Assertions.assertNotNull(result);
   }
 
@@ -31,8 +29,8 @@ class GenreDaoImplTest {
         .name(genreName)
         .build();
 
-    dao.save(genre);
-    Genre result = dao.getById(1);
+    repository.save(genre);
+    Genre result = repository.findById(1);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(genreName, result.getName());
   }
@@ -46,8 +44,8 @@ class GenreDaoImplTest {
         .name(genreName)
         .build();
 
-    dao.update(genre);
-    Genre result = dao.getById(genreId);
+    repository.update(genre);
+    Genre result = repository.findById(genreId);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(genreName, result.getName());
   }
@@ -55,8 +53,8 @@ class GenreDaoImplTest {
   @Test
   void delete() {
     long authorId = 101L;
-    dao.delete(authorId);
-    Genre result = dao.getById(authorId);
+    repository.delete(authorId);
+    Genre result = repository.findById(authorId);
     Assertions.assertNull(result);
   }
 }

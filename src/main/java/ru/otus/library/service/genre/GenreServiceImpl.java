@@ -1,33 +1,55 @@
 package ru.otus.library.service.genre;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import ru.otus.library.dao.genre.GenreDao;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.library.dto.GenreDTO;
 import ru.otus.library.entity.Genre;
+import ru.otus.library.mapper.GenreMapper;
+import ru.otus.library.repository.genre.GenreRepository;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-  private final GenreDao genreDao;
+  private final GenreRepository genreRepository;
 
   @Override
-  public void save(Genre genre) {
-    genreDao.save(genre);
+  @Transactional
+  public void create(String name) {
+    Genre genre = Genre.builder()
+        .name(name)
+        .build();
+
+    genreRepository.save(genre);
   }
 
   @Override
-  public Genre getById(Long id) {
-    return genreDao.getById(id);
+  public List<GenreDTO> findAll() {
+    return genreRepository.findAll().stream()
+        .map(GenreMapper::map)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public void update(Genre genre) {
-    genreDao.update(genre);
+  public GenreDTO findById(Long id) {
+    return GenreMapper.map(genreRepository.findById(id));
   }
 
   @Override
+  @Transactional
+  public void update(Long id, String name) {
+    Genre genre = genreRepository.findById(id);
+    genre.setName(name);
+
+    genreRepository.update(genre);
+  }
+
+  @Override
+  @Transactional
   public void delete(Long id) {
-    genreDao.delete(id);
+    genreRepository.delete(id);
   }
 }

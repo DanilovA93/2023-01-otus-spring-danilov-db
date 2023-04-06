@@ -1,24 +1,24 @@
-package ru.otus.library.dao.author;
+package ru.otus.library.repository.author;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.entity.Author;
 
-@DisplayName("Author DAO test")
-@JdbcTest
-@Import(AuthorDaoImpl.class)
-class AuthorDaoImplTest {
+@DisplayName("Тестирование слоя repository для сущности Author")
+@SpringBootTest
+@Transactional
+class AuthorRepositoryImplTest {
 
   @Autowired
-  private AuthorDaoImpl dao;
+  private AuthorRepositoryImpl repository;
 
   @Test
   void getById() {
-    Author result = dao.getById(100);
+    Author result = repository.findById(100);
     Assertions.assertNotNull(result);
   }
 
@@ -29,8 +29,8 @@ class AuthorDaoImplTest {
         .name(authorName)
         .build();
 
-    dao.save(author);
-    Author result = dao.getById(1);
+    repository.save(author);
+    Author result = repository.findById(1);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(authorName, result.getName());
   }
@@ -44,8 +44,8 @@ class AuthorDaoImplTest {
         .name(authorName)
         .build();
 
-    dao.update(author);
-    Author result = dao.getById(authorId);
+    repository.update(author);
+    Author result = repository.findById(authorId);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(authorName, result.getName());
   }
@@ -53,8 +53,8 @@ class AuthorDaoImplTest {
   @Test
   void delete() {
     long authorId = 101L;
-    dao.delete(authorId);
-    Author result = dao.getById(authorId);
+    repository.delete(authorId);
+    Author result = repository.findById(authorId);
     Assertions.assertNull(result);
   }
 }

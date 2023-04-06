@@ -1,32 +1,42 @@
 package ru.otus.library.shell;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.library.entity.Author;
-import ru.otus.library.facade.author.AuthorFacade;
+import ru.otus.library.dto.AuthorDTO;
+import ru.otus.library.service.author.AuthorService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class AuthorShell {
 
-  private final AuthorFacade authorFacade;
+  private final AuthorService authorService;
 
   @ShellMethod(
       key = {"ac", "author-create"},
       value = "Create an author"
   )
   public void create(@ShellOption({"n", "name"}) String name) {
-    authorFacade.create(name);
+    authorService.create(name);
+  }
+
+  @ShellMethod(
+      key = {"ara", "author-reed-all"},
+      value = "Reed all authors"
+  )
+  public List<AuthorDTO> findAll() {
+    return authorService.findAll();
   }
 
   @ShellMethod(
       key = {"ar", "author-reed"},
       value = "Reed the author"
   )
-  public Author read(@ShellOption({"id"}) Long id) {
-    return authorFacade.read(id);
+  public AuthorDTO findById(@ShellOption({"id"}) Long id) {
+    return authorService.findById(id);
   }
 
   @ShellMethod(
@@ -37,7 +47,7 @@ public class AuthorShell {
       @ShellOption({"id"}) Long id,
       @ShellOption({"n", "name"}) String name
   ) {
-    authorFacade.update(id, name);
+    authorService.update(id, name);
   }
 
   @ShellMethod(
@@ -45,6 +55,6 @@ public class AuthorShell {
       value = "Delete the author"
   )
   public void delete(@ShellOption({"id"}) Long id) {
-    authorFacade.delete(id);
+    authorService.delete(id);
   }
 }

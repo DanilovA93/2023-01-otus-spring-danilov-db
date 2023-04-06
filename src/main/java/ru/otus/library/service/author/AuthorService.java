@@ -1,7 +1,12 @@
 package ru.otus.library.service.author;
 
-import ru.otus.library.entity.Author;
-import ru.otus.library.service.BaseCrudService;
+import java.util.List;
+import ru.otus.library.dto.AuthorDTO;
 
-public interface AuthorService extends BaseCrudService<Author> {
+public interface AuthorService {
+  void create(String name);
+  List<AuthorDTO> findAll();
+  AuthorDTO findById(Long id);
+  void update(Long id, String name);
+  void delete(Long id);
 }

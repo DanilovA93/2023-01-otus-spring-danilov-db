@@ -1,33 +1,55 @@
 package ru.otus.library.service.author;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import ru.otus.library.dao.author.AuthorDao;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.library.dto.AuthorDTO;
 import ru.otus.library.entity.Author;
+import ru.otus.library.mapper.AuthorMapper;
+import ru.otus.library.repository.author.AuthorRepository;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 
-  private final AuthorDao authorDao;
+  private final AuthorRepository authorRepository;
 
   @Override
-  public void save(Author author) {
-    authorDao.save(author);
+  @Transactional
+  public void create(String name) {
+    Author author = Author.builder()
+        .name(name)
+        .build();
+
+    authorRepository.save(author);
   }
 
   @Override
-  public Author getById(Long id) {
-    return authorDao.getById(id);
+  public List<AuthorDTO> findAll() {
+    return authorRepository.findAll().stream()
+        .map(AuthorMapper::map)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public void update(Author author) {
-    authorDao.update(author);
+  public AuthorDTO findById(Long id) {
+    return AuthorMapper.map(authorRepository.findById(id));
   }
 
   @Override
+  @Transactional
+  public void update(Long id, String name) {
+    Author author = authorRepository.findById(id);
+    author.setName(name);
+
+    authorRepository.update(author);
+  }
+
+  @Override
+  @Transactional
   public void delete(Long id) {
-    authorDao.delete(id);
+    authorRepository.delete(id);
   }
 }

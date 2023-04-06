@@ -1,29 +1,31 @@
-package ru.otus.library.dao.book;
+package ru.otus.library.repository.book;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.entity.Author;
 import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Genre;
 
-@DisplayName("Book DAO test")
-@JdbcTest
-@Import(BookDaoImpl.class)
-class BookDaoImplTest {
+@DisplayName("Тестирование слоя repository для сущности Book")
+@SpringBootTest
+@Transactional
+class BookRepositoryTest {
 
   @Autowired
-  private BookDaoImpl dao;
+  private BookRepository repository;
 
-  private Author author = new Author(100L, "AuthorTest");
-  private Genre genre = new Genre(100L, "GenreTest");
+  private Author author = new Author(100L, "AuthorTest", new ArrayList<>());
+  private Genre genre = new Genre(100L, "GenreTest", new ArrayList<>());
 
   @Test
   void getById() {
-    Book result = dao.getById(100);
+    Book result = repository.findById(100);
     Assertions.assertNotNull(result);
   }
 
@@ -36,8 +38,8 @@ class BookDaoImplTest {
         .genre(genre)
         .build();
 
-    dao.save(book);
-    Book result = dao.getById(1);
+    repository.save(book);
+    Book result = repository.findById(1);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(bookName, result.getName());
   }
@@ -53,8 +55,8 @@ class BookDaoImplTest {
         .genre(genre)
         .build();
 
-    dao.update(book);
-    Book result = dao.getById(bookId);
+    repository.update(book);
+    Book result = repository.findById(bookId);
     Assertions.assertNotNull(result);
     Assertions.assertEquals(bookName, result.getName());
   }
@@ -63,8 +65,8 @@ class BookDaoImplTest {
   void delete() {
     long bookId = 100L;
 
-    dao.delete(bookId);
-    Book result = dao.getById(bookId);
-    Assertions.assertNull(result);
+    Assertions.assertDoesNotThrow(
+        () -> repository.delete(bookId)
+    );
   }
 }

@@ -1,7 +1,12 @@
 package ru.otus.library.service.book;
 
-import ru.otus.library.entity.Book;
-import ru.otus.library.service.BaseCrudService;
+import java.util.List;
+import ru.otus.library.dto.BookDTO;
 
-public interface BookService extends BaseCrudService<Book> {
+public interface BookService {
+  void create(Long authorId, Long genreId, String name);
+  List<BookDTO> findAll();
+  BookDTO findById(Long id);
+  void update(Long id, Long authorId, Long genreId, String name);
+  void delete(Long id);
 }
