@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.dto.AuthorDTO;
 import ru.otus.library.entity.Author;
 import ru.otus.library.mapper.AuthorMapper;
-import ru.otus.library.repository.author.AuthorRepository;
+import ru.otus.library.repository.AuthorRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +27,7 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<AuthorDTO> findAll() {
     return authorRepository.findAll().stream()
         .map(AuthorMapper::map)
@@ -34,22 +35,31 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public AuthorDTO findById(Long id) {
-    return AuthorMapper.map(authorRepository.findById(id));
+    return AuthorMapper.map(getById(id));
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public Author getById(Long id) {
+    return authorRepository
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Author with id " + id + "  not found"));
   }
 
   @Override
   @Transactional
   public void update(Long id, String name) {
-    Author author = authorRepository.findById(id);
+    Author author = getById(id);
     author.setName(name);
 
-    authorRepository.update(author);
+    authorRepository.save(author);
   }
 
   @Override
   @Transactional
   public void delete(Long id) {
-    authorRepository.delete(id);
+    authorRepository.deleteById(id);
   }
 }
