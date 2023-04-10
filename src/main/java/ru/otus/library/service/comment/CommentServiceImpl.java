@@ -40,6 +40,7 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public CommentDTO findById(Long id) {
     return CommentMapper.map(getById(id));
   }

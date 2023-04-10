@@ -26,6 +26,7 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<GenreDTO> findAll() {
     return genreRepository.findAll().stream()
         .map(GenreMapper::map)
@@ -33,6 +34,7 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public GenreDTO findById(Long id) {
     return GenreMapper.map(getById(id));
   }

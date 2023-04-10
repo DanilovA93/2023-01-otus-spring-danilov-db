@@ -37,6 +37,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<BookDTO> findAll() {
     return bookRepository.findAll().stream()
         .map(BookMapper::map)
@@ -44,6 +45,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public BookDTO findById(Long id) {
     return BookMapper.map(getById(id));
   }
