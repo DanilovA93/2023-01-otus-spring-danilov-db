@@ -37,7 +37,6 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public List<BookDTO> findAll() {
     return bookRepository.findAll().stream()
         .map(BookMapper::map)
@@ -45,12 +44,11 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public BookDTO findById(Long id) {
     return BookMapper.map(getById(id));
   }
 
-  @Transactional(readOnly = true)
+  @Override
   public Book getById(Long id) {
     return bookRepository
         .findById(id)
@@ -71,7 +69,6 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  @Transactional
   public void delete(Long id) {
     bookRepository.deleteById(id);
   }

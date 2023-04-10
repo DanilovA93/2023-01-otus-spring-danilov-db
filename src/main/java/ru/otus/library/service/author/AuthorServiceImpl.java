@@ -17,7 +17,6 @@ public class AuthorServiceImpl implements AuthorService {
   private final AuthorRepository authorRepository;
 
   @Override
-  @Transactional
   public void create(String name) {
     Author author = Author.builder()
         .name(name)
@@ -27,7 +26,6 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public List<AuthorDTO> findAll() {
     return authorRepository.findAll().stream()
         .map(AuthorMapper::map)
@@ -35,12 +33,10 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public AuthorDTO findById(Long id) {
     return AuthorMapper.map(getById(id));
   }
 
-  @Transactional(readOnly = true)
   @Override
   public Author getById(Long id) {
     return authorRepository
@@ -58,7 +54,6 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  @Transactional
   public void delete(Long id) {
     authorRepository.deleteById(id);
   }

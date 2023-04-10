@@ -40,13 +40,11 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  @Transactional(readOnly = true)
   public CommentDTO findById(Long id) {
     return CommentMapper.map(getById(id));
   }
 
   @Override
-  @Transactional(readOnly = true)
   public Comment getById(Long id) {
     return commentRepository
         .findById(id)
@@ -63,7 +61,6 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  @Transactional
   public void delete(Long id) {
     commentRepository.deleteById(id);
   }
