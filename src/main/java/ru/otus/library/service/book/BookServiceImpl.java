@@ -10,23 +10,23 @@ import ru.otus.library.entity.Author;
 import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Genre;
 import ru.otus.library.mapper.BookMapper;
-import ru.otus.library.repository.author.AuthorRepository;
-import ru.otus.library.repository.book.BookRepository;
-import ru.otus.library.repository.genre.GenreRepository;
+import ru.otus.library.repository.BookRepository;
+import ru.otus.library.service.author.AuthorService;
+import ru.otus.library.service.genre.GenreService;
 
 @Component
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
+  private final AuthorService authorService;
+  private final GenreService genreService;
   private final BookRepository bookRepository;
-  private final AuthorRepository authorRepository;
-  private final GenreRepository genreRepository;
 
   @Override
   @Transactional
   public void create(Long authorId, Long genreId, String name) {
-    Author author = authorRepository.findById(authorId);
-    Genre genre = genreRepository.findById(genreId);
+    Author author = authorService.getById(authorId);
+    Genre genre = genreService.getById(genreId);
     Book book = Book.builder()
         .name(name)
         .author(author)
@@ -37,6 +37,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<BookDTO> findAll() {
     return bookRepository.findAll().stream()
         .map(BookMapper::map)
@@ -44,26 +45,33 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public BookDTO findById(Long id) {
-    return BookMapper.map(bookRepository.findById(id));
+    return BookMapper.map(getById(id));
+  }
+
+  @Override
+  public Book getById(Long id) {
+    return bookRepository
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Book with id " + id + "  not found"));
   }
 
   @Override
   @Transactional
   public void update(Long id, Long authorId, Long genreId, String name) {
-    Author author = authorRepository.findById(authorId);
-    Genre genre = genreRepository.findById(genreId);
-    Book book = bookRepository.findById(id);
+    Author author = authorService.getById(authorId);
+    Genre genre = genreService.getById(genreId);
+    Book book = getById(id);
     book.setAuthor(author);
     book.setGenre(genre);
     book.setName(name);
 
-    bookRepository.update(book);
+    bookRepository.save(book);
   }
 
   @Override
-  @Transactional
   public void delete(Long id) {
-    bookRepository.delete(id);
+    bookRepository.deleteById(id);
   }
 }

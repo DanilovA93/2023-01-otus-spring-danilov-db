@@ -6,23 +6,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.dto.CommentDTO;
-import ru.otus.library.mapper.CommentMapper;
-import ru.otus.library.repository.book.BookRepository;
-import ru.otus.library.repository.comment.CommentRepository;
 import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Comment;
+import ru.otus.library.mapper.CommentMapper;
+import ru.otus.library.repository.CommentRepository;
+import ru.otus.library.service.book.BookService;
 
 @Component
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
+  private final BookService bookService;
   private final CommentRepository commentRepository;
-  private final BookRepository bookRepository;
 
   @Override
   @Transactional
   public void create(Long bookId, String text) {
-    Book book = bookRepository.findById(bookId);
+    Book book = bookService.getById(bookId);
     Comment comment = Comment.builder()
         .book(book)
         .text(text)
@@ -32,30 +32,36 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<CommentDTO> findAllByBookId(Long bookId) {
-    Book book = bookRepository.findById(bookId);
-    return book.getComments().stream()
+    return commentRepository.findAllByBookId(bookId).stream()
         .map(CommentMapper::map)
         .collect(Collectors.toList());
   }
 
   @Override
+  @Transactional(readOnly = true)
   public CommentDTO findById(Long id) {
-    return CommentMapper.map(commentRepository.findById(id));
+    return CommentMapper.map(getById(id));
+  }
+
+  @Override
+  public Comment getById(Long id) {
+    return commentRepository
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Comment with id " + id + "  not found"));
   }
 
   @Override
   @Transactional
   public void update(Long id, String text) {
-    Comment comment = commentRepository.findById(id);
+    Comment comment = getById(id);
     comment.setText(text);
 
-    commentRepository.update(comment);
+    commentRepository.save(comment);
   }
 
   @Override
-  @Transactional
   public void delete(Long id) {
     commentRepository.deleteById(id);
   }
