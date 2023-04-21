@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.ToString.Exclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -24,6 +26,12 @@ public class Comment {
 
   private String text;
 
-  @DocumentReference
+  @DBRef(lazy = true)
+  @Exclude
   private Book book;
+
+  public Comment(String text, Book book) {
+    this.text = text;
+    this.book = book;
+  }
 }

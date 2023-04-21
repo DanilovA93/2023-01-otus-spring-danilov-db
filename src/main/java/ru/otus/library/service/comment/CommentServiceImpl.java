@@ -23,12 +23,9 @@ public class CommentServiceImpl implements CommentService {
   @Transactional
   public void create(String bookId, String text) {
     Book book = bookService.getById(bookId);
-    Comment comment = Comment.builder()
-        .book(book)
-        .text(text)
-        .build();
-
-    commentRepository.save(comment);
+    Comment comment = commentRepository.save(new Comment(text, book));
+    book.getComments().add(comment);
+    bookService.save(book);
   }
 
   @Override

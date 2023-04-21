@@ -3,6 +3,7 @@ package ru.otus.library.mongock.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
+import java.util.List;
 import ru.otus.library.entity.Author;
 import ru.otus.library.entity.Book;
 import ru.otus.library.entity.Comment;
@@ -38,24 +39,22 @@ public class DataBaseChangelog {
   public void insertBooks(BookRepository repository) {
     book = repository.save(
         Book.builder()
-        .author(author)
-        .genre(genre)
-        .name("Dubrovsky")
-        .build()
+            .author(author)
+            .genre(genre)
+            .name("Dubrovsky")
+            .build()
     );
   }
 
   @ChangeSet(order = "005", id = "insertComments", author = "andanilov", runAlways = true)
-  public void insertComments(CommentRepository repository) {
-    repository.save(Comment.builder()
-        .book(book)
-        .text("not bad")
-        .build()
+  public void insertComments(CommentRepository commentRepository, BookRepository bookRepository) {
+    book.setComments(
+        List.of(
+            commentRepository.save(new Comment("comment 1", book)),
+            commentRepository.save(new Comment("comment 2", book)),
+            commentRepository.save(new Comment("comment 3", book))
+        )
     );
-    repository.save(Comment.builder()
-        .book(book)
-        .text("=(")
-        .build()
-    );
+    bookRepository.save(book);
   }
 }

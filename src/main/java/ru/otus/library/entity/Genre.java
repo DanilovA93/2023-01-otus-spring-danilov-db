@@ -1,7 +1,5 @@
 package ru.otus.library.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -25,7 +23,6 @@ public class Genre {
   @Id
   private String id;
   private String name;
-  private List<Book> books = new ArrayList<>();
 
   public Genre(String name) {
     this.name = name;

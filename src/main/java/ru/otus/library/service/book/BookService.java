@@ -5,6 +5,7 @@ import ru.otus.library.dto.BookDTO;
 import ru.otus.library.entity.Book;
 
 public interface BookService {
+  Book save(Book book);
   void create(String authorId, String genreId, String name);
   List<BookDTO> findAll();
   BookDTO findById(String id);
