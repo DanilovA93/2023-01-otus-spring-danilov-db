@@ -7,8 +7,8 @@ import ru.otus.library.entity.Author;
 public interface AuthorService {
   void create(String name);
   List<AuthorDTO> findAll();
-  AuthorDTO findById(Long id);
-  Author getById(Long id);
-  void update(Long id, String name);
-  void delete(Long id);
+  AuthorDTO findById(String id);
+  Author getById(String id);
+  void update(String id, String name);
+  void delete(String id);
 }

@@ -35,12 +35,12 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   @Transactional(readOnly = true)
-  public AuthorDTO findById(Long id) {
+  public AuthorDTO findById(String id) {
     return AuthorMapper.map(getById(id));
   }
 
   @Override
-  public Author getById(Long id) {
+  public Author getById(String id) {
     return authorRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Author with id " + id + "  not found"));
@@ -48,7 +48,7 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   @Transactional
-  public void update(Long id, String name) {
+  public void update(String id, String name) {
     Author author = getById(id);
     author.setName(name);
 
@@ -56,7 +56,7 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     authorRepository.deleteById(id);
   }
 }

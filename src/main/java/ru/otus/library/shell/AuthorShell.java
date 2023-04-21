@@ -35,7 +35,7 @@ public class AuthorShell {
       key = {"ar", "author-reed"},
       value = "Reed the author"
   )
-  public AuthorDTO findById(@ShellOption({"id"}) Long id) {
+  public AuthorDTO findById(@ShellOption({"id"}) String id) {
     return authorService.findById(id);
   }
 
@@ -44,7 +44,7 @@ public class AuthorShell {
       value = "Update the author"
   )
   public void update(
-      @ShellOption({"id"}) Long id,
+      @ShellOption({"id"}) String id,
       @ShellOption({"n", "name"}) String name
   ) {
     authorService.update(id, name);
@@ -54,7 +54,7 @@ public class AuthorShell {
       key = {"ad", "author-delete"},
       value = "Delete the author"
   )
-  public void delete(@ShellOption({"id"}) Long id) {
+  public void delete(@ShellOption({"id"}) String id) {
     authorService.delete(id);
   }
 }

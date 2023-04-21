@@ -5,10 +5,10 @@ import ru.otus.library.dto.CommentDTO;
 import ru.otus.library.entity.Comment;
 
 public interface CommentService {
-  void create(Long bookId, String text);
-  List<CommentDTO> findAllByBookId(Long bookId);
-  CommentDTO findById(Long id);
-  Comment getById(Long id);
-  void update(Long id, String text);
-  void delete(Long id);
+  void create(String bookId, String text);
+  List<CommentDTO> findAllByBookId(String bookId);
+  CommentDTO findById(String id);
+  Comment getById(String id);
+  void update(String id, String text);
+  void delete(String id);
 }

@@ -35,12 +35,12 @@ public class GenreServiceImpl implements GenreService {
 
   @Override
   @Transactional(readOnly = true)
-  public GenreDTO findById(Long id) {
+  public GenreDTO findById(String id) {
     return GenreMapper.map(getById(id));
   }
 
   @Override
-  public Genre getById(Long id) {
+  public Genre getById(String id) {
     return genreRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Genre with id " + id + "  not found"));
@@ -48,7 +48,7 @@ public class GenreServiceImpl implements GenreService {
 
   @Override
   @Transactional
-  public void update(Long id, String name) {
+  public void update(String id, String name) {
     Genre genre = getById(id);
     genre.setName(name);
 
@@ -56,7 +56,7 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     genreRepository.deleteById(id);
   }
 }

@@ -20,8 +20,8 @@ public class BookShell {
       value = "Create a book"
   )
   public void create(
-      @ShellOption({"aid", "author-id"}) Long authorId,
-      @ShellOption({"gid", "genre-id"}) Long genreId,
+      @ShellOption({"aid", "author-id"}) String authorId,
+      @ShellOption({"gid", "genre-id"}) String genreId,
       @ShellOption({"n", "name"}) String name
   ) {
     bookService.create(authorId, genreId, name);
@@ -40,7 +40,7 @@ public class BookShell {
       value = "Reed the book"
   )
   public BookDTO findById(
-      @ShellOption({"id"}) Long id
+      @ShellOption({"id"}) String id
   ){
     return bookService.findById(id);
   }
@@ -50,9 +50,9 @@ public class BookShell {
       value = "Update the book"
   )
   public void update(
-      @ShellOption({"id"}) Long id,
-      @ShellOption({"aid", "author-id"}) Long authorId,
-      @ShellOption({"gid", "genre-id"}) Long genreId,
+      @ShellOption({"id"}) String id,
+      @ShellOption({"aid", "author-id"}) String authorId,
+      @ShellOption({"gid", "genre-id"}) String genreId,
       @ShellOption({"n", "name"}) String name
   ) {
     bookService.update(id, authorId, genreId, name);
@@ -62,7 +62,7 @@ public class BookShell {
       key = {"bd", "book-delete"},
       value = "Delete the book"
   )
-  public void delete(@ShellOption({"id"}) Long id) {
+  public void delete(@ShellOption({"id"}) String id) {
     bookService.delete(id);
   }
 }

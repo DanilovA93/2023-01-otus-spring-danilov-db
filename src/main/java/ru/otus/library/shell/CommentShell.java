@@ -20,7 +20,7 @@ public class CommentShell {
       value = "Create a comment"
   )
   public void create(
-      @ShellOption({"book-id", "bid"}) Long bookId,
+      @ShellOption({"book-id", "bid"}) String bookId,
       @ShellOption({"text", "t"}) String text
   ){
     commentService.create(bookId, text);
@@ -31,7 +31,7 @@ public class CommentShell {
       value = "Read all comment for book"
   )
   public List<CommentDTO> findAllByBookId(
-      @ShellOption({"book-id", "bid"}) Long bookId
+      @ShellOption({"book-id", "bid"}) String bookId
   ){
     return commentService.findAllByBookId(bookId);
   }
@@ -41,7 +41,7 @@ public class CommentShell {
       value = "Read a comment"
   )
   public CommentDTO findById(
-      @ShellOption({"id", "id"}) Long id
+      @ShellOption({"id", "id"}) String id
   ){
     return commentService.findById(id);
   }
@@ -51,7 +51,7 @@ public class CommentShell {
       value = "Update the comment"
   )
   public void update(
-      @ShellOption({"id", "id"}) Long id,
+      @ShellOption({"id", "id"}) String id,
       @ShellOption({"text", "text"}) String text
   ){
     commentService.update(id, text);
@@ -62,7 +62,7 @@ public class CommentShell {
       value = "Delete the comment"
   )
   public void delete(
-      @ShellOption({"id", "id"}) Long id
+      @ShellOption({"id", "id"}) String id
   ){
     commentService.delete(id);
   }
