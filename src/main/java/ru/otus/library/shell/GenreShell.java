@@ -35,7 +35,7 @@ public class GenreShell {
       value = "Reed the genre"
   )
   public GenreDTO findById(
-      @ShellOption({"id"}) Long id
+      @ShellOption({"id"}) String id
   ){
     return genreService.findById(id);
   }
@@ -45,7 +45,7 @@ public class GenreShell {
       value = "Update the genre"
   )
   public void update(
-      @ShellOption({"id"}) Long id,
+      @ShellOption({"id"}) String id,
       @ShellOption({"n", "name"}) String name
   ) {
     genreService.update(id, name);
@@ -55,7 +55,7 @@ public class GenreShell {
       key = {"gd", "genre-delete"},
       value = "Delete the genre"
   )
-  public void delete(@ShellOption({"id"}) Long id) {
+  public void delete(@ShellOption({"id"}) String id) {
     genreService.delete(id);
   }
 }

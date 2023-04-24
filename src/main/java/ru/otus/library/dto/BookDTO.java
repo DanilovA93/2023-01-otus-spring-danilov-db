@@ -16,7 +16,7 @@ import ru.otus.library.entity.Book;
 @Setter
 public class BookDTO {
 
-  private Long id;
+  private String id;
   private String name;
 
   @Override

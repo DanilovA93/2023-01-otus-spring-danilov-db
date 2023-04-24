@@ -21,19 +21,16 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional
-  public void create(Long bookId, String text) {
+  public void create(String bookId, String text) {
     Book book = bookService.getById(bookId);
-    Comment comment = Comment.builder()
-        .book(book)
-        .text(text)
-        .build();
-
-    commentRepository.save(comment);
+    Comment comment = commentRepository.save(new Comment(text, book));
+    book.getComments().add(comment);
+    bookService.save(book);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<CommentDTO> findAllByBookId(Long bookId) {
+  public List<CommentDTO> findAllByBookId(String bookId) {
     return commentRepository.findAllByBookId(bookId).stream()
         .map(CommentMapper::map)
         .collect(Collectors.toList());
@@ -41,12 +38,12 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional(readOnly = true)
-  public CommentDTO findById(Long id) {
+  public CommentDTO findById(String id) {
     return CommentMapper.map(getById(id));
   }
 
   @Override
-  public Comment getById(Long id) {
+  public Comment getById(String id) {
     return commentRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Comment with id " + id + "  not found"));
@@ -54,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional
-  public void update(Long id, String text) {
+  public void update(String id, String text) {
     Comment comment = getById(id);
     comment.setText(text);
 
@@ -62,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     commentRepository.deleteById(id);
   }
 }

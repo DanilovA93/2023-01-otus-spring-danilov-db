@@ -26,7 +26,7 @@ class BookServiceImplTest {
   @Test
   void findById() {
     Optional<Book> optionalBook = Optional.of(Book.builder()
-        .id(1L)
+        .id("1")
         .name("")
         .author(Author.builder().build())
         .genre(Genre.builder().build())
@@ -34,9 +34,9 @@ class BookServiceImplTest {
     );
     Book book = optionalBook.get();
 
-    doReturn(optionalBook).when(repository).findById(1L);
+    doReturn(optionalBook).when(repository).findById("1");
 
-    BookDTO result = service.findById(1L);
+    BookDTO result = service.findById("1");
 
     Assertions.assertNotNull(result);
     Assertions.assertEquals(book.getId(), result.getId());

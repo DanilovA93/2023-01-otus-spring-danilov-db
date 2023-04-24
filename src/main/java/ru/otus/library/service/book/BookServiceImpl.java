@@ -23,8 +23,13 @@ public class BookServiceImpl implements BookService {
   private final BookRepository bookRepository;
 
   @Override
+  public Book save(Book book) {
+    return bookRepository.save(book);
+  }
+
+  @Override
   @Transactional
-  public void create(Long authorId, Long genreId, String name) {
+  public void create(String authorId, String genreId, String name) {
     Author author = authorService.getById(authorId);
     Genre genre = genreService.getById(genreId);
     Book book = Book.builder()
@@ -46,12 +51,12 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional(readOnly = true)
-  public BookDTO findById(Long id) {
+  public BookDTO findById(String id) {
     return BookMapper.map(getById(id));
   }
 
   @Override
-  public Book getById(Long id) {
+  public Book getById(String id) {
     return bookRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Book with id " + id + "  not found"));
@@ -59,7 +64,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional
-  public void update(Long id, Long authorId, Long genreId, String name) {
+  public void update(String id, String authorId, String genreId, String name) {
     Author author = authorService.getById(authorId);
     Genre genre = genreService.getById(genreId);
     Book book = getById(id);
@@ -71,7 +76,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     bookRepository.deleteById(id);
   }
 }

@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class CommentDTO {
 
-  private Long id;
+  private String id;
   private String text;
 
   @Override

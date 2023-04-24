@@ -5,10 +5,11 @@ import ru.otus.library.dto.BookDTO;
 import ru.otus.library.entity.Book;
 
 public interface BookService {
-  void create(Long authorId, Long genreId, String name);
+  Book save(Book book);
+  void create(String authorId, String genreId, String name);
   List<BookDTO> findAll();
-  BookDTO findById(Long id);
-  Book getById(Long id);
-  void update(Long id, Long authorId, Long genreId, String name);
-  void delete(Long id);
+  BookDTO findById(String id);
+  Book getById(String id);
+  void update(String id, String authorId, String genreId, String name);
+  void delete(String id);
 }
